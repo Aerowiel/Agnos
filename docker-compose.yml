@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  node:
+    build: ./docker
+    command: npm run dev
+    volumes:
+      - ./:/project
+    networks:
+      - default
+      - traefik
+    labels:
+      traefik.docker.network: traefik
+      traefik.port: 3000
+      traefik.frontend.rule: "Host:kanban-v2.test"
+    ports:
+      - 3000
+
+networks:
+  traefik:
+    external: true

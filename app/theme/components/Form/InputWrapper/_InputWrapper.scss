@@ -1,0 +1,18 @@
+.input-wrapper {
+  &__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  &__error {
+    white-space: pre-line;
+    margin-top: 0.3rem;
+    color: $error;
+  }
+
+  &__label,
+  &__error {
+    margin-left: 4px;
+  }
+}

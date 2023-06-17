@@ -1,0 +1,21 @@
+@import "../theme/components/components";
+@import "../theme/pages/pages";
+@import "../theme/layouts/layouts";
+
+* {
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  color: $fontColor;
+}
+
+body {
+  margin: 0;
+}

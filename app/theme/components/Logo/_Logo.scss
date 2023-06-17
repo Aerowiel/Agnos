@@ -1,0 +1,11 @@
+.logo {
+  white-space: pre-wrap;
+  line-height: normal;
+  font-size: 0.6rem;
+}
+
+@media screen and (min-width: 505px) {
+  .logo {
+    font-size: 0.8rem;
+  }
+}

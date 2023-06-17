@@ -1,0 +1,11 @@
+.generic-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: $backgroundColor;
+
+  &__content {
+    height: 100%;
+    padding: 0.5rem;
+  }
+}
