@@ -6,6 +6,8 @@
 ██║  ██║╚██████╔╝██║ ╚████║╚██████╔╝███████║
 ```
 
+https://agnos.fly.dev/
+
 # What is it ?
 
 Agnos is an anonymous chatroom that stores no communication between users.
