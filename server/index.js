@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(`${socket.id} joined ${socket.chatId}`);
+    console.log(`${socket.id} disconnected from ${socket.chatId}`);
     io.to(socket.chatId).emit("user-left", {
       timestamp: Date.now(),
       username: socket.username,
