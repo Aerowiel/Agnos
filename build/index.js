@@ -144,7 +144,7 @@ __export(root_exports, {
 var import_react3 = require("@remix-run/react"), import_react4 = require("react"), import_socket = require("socket.io-client");
 
 // app/styles/main.css
-var main_default = "/build/_assets/main-RELCEJ6K.css";
+var main_default = "/build/_assets/main-DV2JBS62.css";
 
 // app/theme/layouts/GenericLayout/GenericLayout.tsx
 var import_jsx_dev_runtime2 = require("react/jsx-dev-runtime"), GenericLayout = ({ children }) => /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "generic-layout", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "generic-layout__content", children }, void 0, !1, {
@@ -754,7 +754,7 @@ var ChatRoomRoute = () => {
 }, chat_default = ChatRoomRoute;
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-2L2TJRND.js", imports: ["/build/_shared/chunk-FQZ43RS4.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-KWHJFODN.js", imports: ["/build/_shared/chunk-EJP666BY.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-NZS4R2OK.js", imports: ["/build/_shared/chunk-7WKIDNP2.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/chat": { id: "routes/chat", parentId: "root", path: "chat", index: void 0, caseSensitive: void 0, module: "/build/routes/chat-PKVG64LT.js", imports: ["/build/_shared/chunk-7WKIDNP2.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, cssBundleHref: void 0, version: "ef321278", hmr: void 0, url: "/build/manifest-EF321278.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-2L2TJRND.js", imports: ["/build/_shared/chunk-FQZ43RS4.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MVND5P4M.js", imports: ["/build/_shared/chunk-EJP666BY.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-NZS4R2OK.js", imports: ["/build/_shared/chunk-7WKIDNP2.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/chat": { id: "routes/chat", parentId: "root", path: "chat", index: void 0, caseSensitive: void 0, module: "/build/routes/chat-PKVG64LT.js", imports: ["/build/_shared/chunk-7WKIDNP2.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, cssBundleHref: void 0, version: "5594ae38", hmr: void 0, url: "/build/manifest-5594AE38.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", future = { unstable_dev: !1, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_headers: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

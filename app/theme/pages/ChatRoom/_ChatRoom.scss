@@ -58,6 +58,7 @@
 
     &__username {
       color: $brandPrimary;
+      white-space: nowrap;
 
       &--system {
         color: $system;

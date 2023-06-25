@@ -134,7 +134,8 @@ body {
   color: #98971a; }
 
 .chat-room .chat-message-prefix__username {
-  color: #d79921; }
+  color: #d79921;
+  white-space: nowrap; }
 
 .chat-room .chat-message-prefix__username--system {
   color: #d75021; }

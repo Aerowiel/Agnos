@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("message", ({ message }) => {
-    console.log(`${socket.id} sent a new message to ${chatId}`);
+    console.log(`${socket.id} sent a new message to ${socket.chatId}`);
     io.to(socket.chatId).emit("message", {
       timestamp: Date.now(),
       username: socket.username,
