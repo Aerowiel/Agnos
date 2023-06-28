@@ -24,7 +24,6 @@ const JoinChat = () => {
           id="username"
           name="username"
           type="text"
-          defaultValue="Anonymous"
           label="Username"
           maxLength={20}
         />

@@ -144,7 +144,7 @@ __export(root_exports, {
 var import_react3 = require("@remix-run/react"), import_react4 = require("react"), import_socket = require("socket.io-client");
 
 // app/styles/main.css
-var main_default = "/build/_assets/main-DV2JBS62.css";
+var main_default = "/build/_assets/main-DROGQ2BH.css";
 
 // app/theme/layouts/GenericLayout/GenericLayout.tsx
 var import_jsx_dev_runtime2 = require("react/jsx-dev-runtime"), GenericLayout = ({ children }) => /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "generic-layout", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("div", { className: "generic-layout__content", children }, void 0, !1, {
@@ -400,7 +400,6 @@ var import_jsx_dev_runtime8 = require("react/jsx-dev-runtime"), JoinChat = () =>
           id: "username",
           name: "username",
           type: "text",
-          defaultValue: "Anonymous",
           label: "Username",
           maxLength: 20
         },
@@ -416,26 +415,26 @@ var import_jsx_dev_runtime8 = require("react/jsx-dev-runtime"), JoinChat = () =>
       chatId ? /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)(import_jsx_dev_runtime8.Fragment, { children: [
         /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("input", { type: "hidden", name: "chat-id", value: chatId }, void 0, !1, {
           fileName: "app/theme/pages/JoinChat/JoinChat.tsx",
-          lineNumber: 34,
+          lineNumber: 33,
           columnNumber: 13
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("input", { type: "hidden", name: "_action", value: "join-existing-chat" }, void 0, !1, {
           fileName: "app/theme/pages/JoinChat/JoinChat.tsx",
-          lineNumber: 35,
+          lineNumber: 34,
           columnNumber: 13
         }, this)
       ] }, void 0, !0, {
         fileName: "app/theme/pages/JoinChat/JoinChat.tsx",
-        lineNumber: 33,
+        lineNumber: 32,
         columnNumber: 11
       }, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("input", { type: "hidden", name: "_action", value: "create-new-chat" }, void 0, !1, {
         fileName: "app/theme/pages/JoinChat/JoinChat.tsx",
-        lineNumber: 38,
+        lineNumber: 37,
         columnNumber: 11
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)(Button, { type: "submit", children: chatId ? "Join" : "Create new chat room" }, void 0, !1, {
         fileName: "app/theme/pages/JoinChat/JoinChat.tsx",
-        lineNumber: 40,
+        lineNumber: 39,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
@@ -455,7 +454,7 @@ var import_jsx_dev_runtime9 = require("react/jsx-dev-runtime"), meta = () => [
   { title: "Agnos" },
   { name: "description", content: "Agnos, anonymous chat" }
 ], action = async ({ request }) => {
-  let formData = await request.formData(), action2 = formData.get("_action"), trimmedUsername = formData.get("username").substring(20, 0);
+  let formData = await request.formData(), action2 = formData.get("_action"), trimmedUsername = formData.get("username").substring(0, 20);
   switch (action2) {
     case "create-new-chat":
       let randomChatId = (0, import_uuid.v4)();
@@ -486,7 +485,19 @@ var import_node4 = require("@remix-run/node"), import_react7 = require("@remix-r
 
 // app/theme/pages/ChatRoom/ChatRoom.tsx
 var import_classnames2 = __toESM(require("classnames")), import_react6 = require("react");
-var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LENGTH = 300, timesampToHumanTime = (timestamp) => {
+
+// app/utils/sanitizeHtml.ts
+var import_sanitize_html = __toESM(require("sanitize-html")), sanitizeHtmlOptions = {
+  allowedTags: ["img"],
+  allowedAttributes: {
+    img: ["src", "class"]
+  },
+  allowedIframeHostnames: ["noelshack.com"]
+}, sanitizeHtml = (html) => ({ __html: (0, import_sanitize_html.default)(html, sanitizeHtmlOptions) }), sanitizeHtml_default = sanitizeHtml;
+
+// app/theme/pages/ChatRoom/ChatRoom.tsx
+var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime");
+var timesampToHumanTime = (timestamp) => {
   let date = new Date(Number(timestamp)), hours = String(date.getHours()).padStart(2, "0"), minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }, ChatMessagePrefix = ({
@@ -498,14 +509,14 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
     "[",
     /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("span", { className: "chat-message-prefix__time", children: timesampToHumanTime(timestamp) }, void 0, !1, {
       fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-      lineNumber: 39,
+      lineNumber: 41,
       columnNumber: 11
     }, this),
     "]",
     "\xA0"
   ] }, void 0, !0, {
     fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-    lineNumber: 37,
+    lineNumber: 39,
     columnNumber: 9
   }, this),
   /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
@@ -520,19 +531,19 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
     !1,
     {
       fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-      lineNumber: 45,
+      lineNumber: 47,
       columnNumber: 7
     },
     this
   ),
   /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("span", { className: "chat-message-prefix__chars", children: "\xA0$\xA0" }, void 0, !1, {
     fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-    lineNumber: 52,
+    lineNumber: 54,
     columnNumber: 7
   }, this)
 ] }, void 0, !0, {
   fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-  lineNumber: 35,
+  lineNumber: 37,
   columnNumber: 5
 }, this), SendMessageAction = ({
   inputRef,
@@ -543,7 +554,7 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
   return /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("div", { className: "send-message-action", children: [
     /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(ChatMessagePrefix, { username }, void 0, !1, {
       fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-      lineNumber: 78,
+      lineNumber: 80,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
@@ -553,27 +564,27 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
           event.key === "Enter" && (event.preventDefault(), sendMessage(message), setMessage(""));
         },
         ref: inputRef,
-        rows: 1,
+        rows: 2,
         required: !0,
         autoFocus: !0,
         value: message,
         onChange: (event) => {
           setMessage(event.target.value);
         },
-        maxLength: MESSAGE_MAX_LENGTH
+        maxLength: 300
       },
       void 0,
       !1,
       {
         fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-        lineNumber: 79,
+        lineNumber: 81,
         columnNumber: 7
       },
       this
     )
   ] }, void 0, !0, {
     fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-    lineNumber: 77,
+    lineNumber: 79,
     columnNumber: 5
   }, this);
 }, ChatMessage = ({
@@ -585,42 +596,107 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
   /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
     ChatMessagePrefix,
     {
-      isSystem,
-      username,
+      isSystem: !0,
+      username: isSystem ? "System" : username,
       timestamp
     },
     void 0,
     !1,
     {
       fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-      lineNumber: 108,
+      lineNumber: 110,
       columnNumber: 7
     },
     this
   ),
-  /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("span", { className: "chat-message__message", children: message }, void 0, !1, {
-    fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-    lineNumber: 113,
-    columnNumber: 7
-  }, this)
+  /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
+    "span",
+    {
+      className: "chat-message__message",
+      dangerouslySetInnerHTML: sanitizeHtml_default(message)
+    },
+    void 0,
+    !1,
+    {
+      fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
+      lineNumber: 115,
+      columnNumber: 7
+    },
+    this
+  )
 ] }, void 0, !0, {
   fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-  lineNumber: 107,
+  lineNumber: 109,
   columnNumber: 5
-}, this), useChatRoom = ({
+}, this), ChatSystemMessage = ({
+  timestamp,
+  message
+}) => /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
+  ChatMessage,
+  {
+    isSystem: !0,
+    timestamp,
+    username: "System",
+    message
+  },
+  void 0,
+  !1,
+  {
+    fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
+    lineNumber: 128,
+    columnNumber: 5
+  },
+  this
+), ChatUserMessage = ({
+  timestamp,
+  message,
+  username
+}) => /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
+  ChatMessage,
+  {
+    timestamp,
+    username,
+    message: ((message2) => {
+      let noelshackRegex = new RegExp(
+        "(https://(image|www).noelshack.com/(fichiers|minis)/[0-9]*/[0-9]*/[0-9]*/[a-zA-Z0-9-]*.(png|jpg))",
+        "gm"
+      );
+      return message2.match(noelshackRegex) && (message2 = message2.replaceAll(
+        noelshackRegex,
+        '<img class="noelshack-image" src=$1 />'
+      )), message2;
+    })(message)
+  },
+  void 0,
+  !1,
+  {
+    fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
+    lineNumber: 159,
+    columnNumber: 5
+  },
+  this
+), UsersTooltip = ({ users }) => users != null && users.length ? /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("div", { className: "users-tooltip", children: users.map((user) => /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("div", { children: user }, void 0, !1, {
+  fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
+  lineNumber: 175,
+  columnNumber: 9
+}, this)) }, void 0, !1, {
+  fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
+  lineNumber: 173,
+  columnNumber: 5
+}, this) : null, useChatRoom = ({
   chatId,
   username
 }) => {
-  let socket = (0, import_react6.useContext)(wsContext), messagesBottomAnchor = (0, import_react6.useRef)(null), [messages, setMessages] = (0, import_react6.useState)([]), handleSendMessage = (message) => {
+  let socket = (0, import_react6.useContext)(wsContext), messagesBottomAnchor = (0, import_react6.useRef)(null), [messages, setMessages] = (0, import_react6.useState)([]), [users, setUsers] = (0, import_react6.useState)([]), handleSendMessage = (message) => {
     !socket || !message || socket.emit("message", { message, chatId });
   }, handleUpdateMessages = (newChatMessage) => {
     setMessages((messages2) => [...messages2, newChatMessage]);
   };
   return (0, import_react6.useEffect)(() => {
-    !socket || !chatId || (socket.emit("user-joined", { chatId, username }), socket.on("user-joined", ({ timestamp, username: username2 }) => {
-      handleUpdateMessages({ type: "user-joined", timestamp, username: username2 });
-    }), socket.on("user-left", ({ timestamp, username: username2 }) => {
-      handleUpdateMessages({ type: "user-left", timestamp, username: username2 });
+    !socket || !chatId || (socket.emit("user-joined", { chatId, username }), socket.on("user-joined", ({ timestamp, message, connectedUsers }) => {
+      handleUpdateMessages({ type: "system", timestamp, message }), setUsers(connectedUsers);
+    }), socket.on("user-left", ({ timestamp, message, connectedUsers }) => {
+      handleUpdateMessages({ type: "system", timestamp, message }), setUsers(connectedUsers);
     }), socket.on("message", ({ timestamp, username: username2, message }) => {
       handleUpdateMessages({ type: "message", timestamp, username: username2, message });
     }));
@@ -629,12 +705,12 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
       block: "nearest",
       behavior: "smooth"
     });
-  }, [messages]), { messagesBottomAnchor, messages, handleSendMessage };
+  }, [messages]), { messagesBottomAnchor, messages, handleSendMessage, users };
 }, ChatRoom = ({
   chatId,
   username
 }) => {
-  let { messagesBottomAnchor, messages, handleSendMessage } = useChatRoom({
+  let { messagesBottomAnchor, messages, handleSendMessage, users } = useChatRoom({
     chatId,
     username
   }), inputRef = (0, import_react6.useRef)(null);
@@ -643,45 +719,25 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
   }, children: [
     /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("div", { className: "chat-room__messages", children: [
       messages.map((message) => {
-        if (message.type === "user-joined")
+        if (message.type === "system")
           return /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
-            ChatMessage,
+            ChatSystemMessage,
             {
-              isSystem: !0,
               timestamp: message.timestamp,
-              username: "System",
-              message: `${message.username} joined the room`
+              message: message.message
             },
             void 0,
             !1,
             {
               fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-              lineNumber: 197,
+              lineNumber: 266,
               columnNumber: 15
             },
             this
           );
-        if (message.type === "user-left")
+        if ("username" in message)
           return /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
-            ChatMessage,
-            {
-              isSystem: !0,
-              timestamp: message.timestamp,
-              username: "System",
-              message: `${message.username} left the room`
-            },
-            void 0,
-            !1,
-            {
-              fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-              lineNumber: 208,
-              columnNumber: 15
-            },
-            this
-          );
-        if (message.type === "message")
-          return /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
-            ChatMessage,
+            ChatUserMessage,
             {
               timestamp: message.timestamp,
               username: message.username,
@@ -691,7 +747,7 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
             !1,
             {
               fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-              lineNumber: 219,
+              lineNumber: 276,
               columnNumber: 15
             },
             this
@@ -699,12 +755,12 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
       }),
       /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("div", { ref: messagesBottomAnchor }, void 0, !1, {
         fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-        lineNumber: 227,
+        lineNumber: 284,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-      lineNumber: 193,
+      lineNumber: 262,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(
@@ -718,14 +774,19 @@ var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime"), MESSAGE_MAX_LEN
       !1,
       {
         fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-        lineNumber: 229,
+        lineNumber: 286,
         columnNumber: 7
       },
       this
-    )
+    ),
+    /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(UsersTooltip, { users }, void 0, !1, {
+      fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
+      lineNumber: 291,
+      columnNumber: 7
+    }, this)
   ] }, void 0, !0, {
     fileName: "app/theme/pages/ChatRoom/ChatRoom.tsx",
-    lineNumber: 192,
+    lineNumber: 261,
     columnNumber: 5
   }, this);
 }, ChatRoom_default = ChatRoom;
@@ -754,10 +815,10 @@ var ChatRoomRoute = () => {
 }, chat_default = ChatRoomRoute;
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-2L2TJRND.js", imports: ["/build/_shared/chunk-FQZ43RS4.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MVND5P4M.js", imports: ["/build/_shared/chunk-EJP666BY.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-NZS4R2OK.js", imports: ["/build/_shared/chunk-7WKIDNP2.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/chat": { id: "routes/chat", parentId: "root", path: "chat", index: void 0, caseSensitive: void 0, module: "/build/routes/chat-PKVG64LT.js", imports: ["/build/_shared/chunk-7WKIDNP2.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, cssBundleHref: void 0, version: "5594ae38", hmr: void 0, url: "/build/manifest-5594AE38.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-5EMJK6RE.js", imports: ["/build/_shared/chunk-LHCNBYRQ.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-XZVSN76O.js", imports: ["/build/_shared/chunk-3EUIMNC5.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-JBFHHLZM.js", imports: ["/build/_shared/chunk-I5Y6BFS2.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/chat": { id: "routes/chat", parentId: "root", path: "chat", index: void 0, caseSensitive: void 0, module: "/build/routes/chat-UX2MDXET.js", imports: ["/build/_shared/chunk-I5Y6BFS2.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, version: "98fe7bf5", hmr: void 0, url: "/build/manifest-98FE7BF5.js" };
 
 // server-entry-module:@remix-run/dev/server-build
-var assetsBuildDirectory = "public/build", future = { unstable_dev: !1, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_headers: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
+var assetsBuildDirectory = "public/build", future = { v2_dev: !1, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_headers: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
   root: {
     id: "root",
     parentId: void 0,

@@ -84,6 +84,7 @@ body {
   margin: 1rem 0; }
 
 .chat-room {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -117,6 +118,8 @@ body {
   background: #d79921; }
 
 .chat-room .chat-message {
+  display: inline-flex;
+  align-items: baseline;
   color: #a89984;
   line-height: 1.5; }
 
@@ -124,6 +127,12 @@ body {
   color: #ebdbb2;
   word-break: break-word;
   white-space: pre-line; }
+
+.chat-room .chat-message .noelshack-image {
+  vertical-align: bottom;
+  aspect-ratio: auto 68 / 51;
+  width: 68px;
+  height: 51px; }
 
 .chat-room .chat-message-prefix {
   display: flex;
@@ -145,7 +154,7 @@ body {
 
 .chat-room .send-message-action {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   margin-top: 2rem; }
 
 .chat-room .send-message-action textarea {
@@ -162,6 +171,18 @@ body {
   background-color: transparent;
   border: none;
   outline: none; }
+
+.chat-room .users-tooltip {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  border: 2px solid #d79921;
+  border-bottom-left-radius: 0.25rem;
+  border-right: none;
+  border-top: none;
+  background-color: #282828; }
 
 .generic-layout {
   display: flex;

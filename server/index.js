@@ -18,34 +18,72 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer);
 
+const chatRooms = {};
+
 // then list to the connection event and get a socket object
 io.on("connection", (socket) => {
   console.log(socket.id, "connected");
 
   socket.on("user-joined", ({ chatId, username }) => {
-    console.log(`${socket.id} joined ${chatId}`);
+    console.log(`[${socket.id}] ${username} joined ${chatId}`);
     socket.join(chatId);
     socket.username = username;
     socket.chatId = chatId;
 
-    io.to(chatId).emit("user-joined", { timestamp: Date.now(), username });
+    if (!chatRooms[chatId]) {
+      chatRooms[chatId] = { users: { [socket.id]: username } };
+    } else {
+      chatRooms[chatId].users[socket.id] = username;
+    }
+
+    io.to(chatId).emit("user-joined", {
+      timestamp: Date.now(),
+      message: `${username} joined the room.`,
+      connectedUsers: Object.keys(chatRooms[chatId].users).map(
+        (userId) => chatRooms[chatId].users[userId]
+      ),
+    });
   });
 
   socket.on("message", ({ message }) => {
-    console.log(`${socket.id} sent a new message to ${socket.chatId}`);
+    console.log(
+      `[${socket.id}]${socket.username} sent "${message}" to ${socket.chatId}`
+    );
+
+    const trimmedMessage = message.substring(0, 300);
     io.to(socket.chatId).emit("message", {
       timestamp: Date.now(),
       username: socket.username,
-      message,
+      message: trimmedMessage,
     });
   });
 
   socket.on("disconnect", () => {
-    console.log(`${socket.id} disconnected from ${socket.chatId}`);
-    io.to(socket.chatId).emit("user-left", {
-      timestamp: Date.now(),
-      username: socket.username,
-    });
+    console.log(
+      `${socket.id} disconnected ${
+        socket.chatId ? `from ${socket.chatId}` : ""
+      }`
+    );
+
+    if (socket.chatId) {
+      if (chatRooms[socket.chatId]) {
+        delete chatRooms[socket.chatId].users[socket.id];
+
+        if (Object.keys(chatRooms[socket.chatId].users).length === 0) {
+          delete chatRooms[socket.chatId];
+        }
+      }
+
+      io.to(socket.chatId).emit("user-left", {
+        timestamp: Date.now(),
+        message: `${socket.username} left the room.`,
+        connectedUsers: chatRooms[socket.chatId]
+          ? Object.keys(chatRooms[socket.chatId].users).map(
+              (userId) => chatRooms[socket.chatId].users[userId]
+            )
+          : [],
+      });
+    }
   });
 });
 

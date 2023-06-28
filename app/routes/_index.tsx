@@ -15,7 +15,7 @@ export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
   const action = formData.get("_action") as string;
   const username = formData.get("username") as string;
-  const trimmedUsername = username.substring(20, 0);
+  const trimmedUsername = username.substring(0, 20);
 
   switch (action) {
     case "create-new-chat":

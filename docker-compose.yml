@@ -12,7 +12,7 @@ services:
     labels:
       traefik.docker.network: traefik
       traefik.port: 3000
-      traefik.frontend.rule: "Host:kanban-v2.test"
+      traefik.frontend.rule: "Host:agnos.test"
     ports:
       - 3000
 

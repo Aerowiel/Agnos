@@ -1,16 +1,18 @@
 import classNames from "classnames";
 import {
   KeyboardEvent,
+  ReactNode,
   RefObject,
   useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { ChatMessage } from "~/types/chat";
+import { UserMessage, SystemMessage } from "~/types/chat";
+import sanitizeHtml from "~/utils/sanitizeHtml";
 import { wsContext } from "~/ws-context";
 
-const MESSAGE_MAX_LENGTH = 300;
+const NOELSHACK_URL = "https://image.noelshack.com/";
 
 const timesampToHumanTime = (timestamp: string): string => {
   const date = new Date(Number(timestamp));
@@ -79,14 +81,14 @@ const SendMessageAction = ({
       <textarea
         onKeyDown={handleKeyDown}
         ref={inputRef}
-        rows={1}
+        rows={2}
         required
         autoFocus
         value={message}
         onChange={(event) => {
           setMessage(event.target.value);
         }}
-        maxLength={MESSAGE_MAX_LENGTH}
+        maxLength={300}
       />
     </div>
   );
@@ -101,16 +103,77 @@ const ChatMessage = ({
   isSystem?: boolean;
   timestamp: string;
   username: string;
-  message?: string;
+  message: string;
 }) => {
   return (
     <div className="chat-message">
       <ChatMessagePrefix
-        isSystem={isSystem}
-        username={username}
+        isSystem
+        username={isSystem ? "System" : username}
         timestamp={timestamp}
       />
-      <span className="chat-message__message">{message}</span>
+      <span
+        className="chat-message__message"
+        dangerouslySetInnerHTML={sanitizeHtml(message)}
+      />
+    </div>
+  );
+};
+
+const ChatSystemMessage = ({
+  timestamp,
+  message,
+}: Omit<SystemMessage, "type">) => {
+  return (
+    <ChatMessage
+      isSystem
+      timestamp={timestamp}
+      username="System"
+      message={message}
+    />
+  );
+};
+
+const ChatUserMessage = ({
+  timestamp,
+  message,
+  username,
+}: Omit<UserMessage, "type">) => {
+  const applyFormatting = (message: string): string | any => {
+    const noelshackRegex = new RegExp(
+      "(https://(image|www).noelshack.com/(fichiers|minis)/[0-9]*/[0-9]*/[0-9]*/[a-zA-Z0-9-]*.(png|jpg))",
+      "gm"
+    );
+
+    if (message.match(noelshackRegex)) {
+      message = message.replaceAll(
+        noelshackRegex,
+        '<img class="noelshack-image" src=$1 />'
+      );
+    }
+
+    return message;
+  };
+
+  return (
+    <ChatMessage
+      timestamp={timestamp}
+      username={username}
+      message={applyFormatting(message)}
+    />
+  );
+};
+
+const UsersTooltip = ({ users }: { users?: string[] }) => {
+  if (!users?.length) {
+    return null;
+  }
+
+  return (
+    <div className="users-tooltip">
+      {users.map((user) => (
+        <div>{user}</div>
+      ))}
     </div>
   );
 };
@@ -125,7 +188,8 @@ const useChatRoom = ({
   let socket = useContext(wsContext);
 
   const messagesBottomAnchor = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<(SystemMessage | UserMessage)[]>([]);
+  const [users, setUsers] = useState([]);
 
   const handleSendMessage = (message: string) => {
     if (!socket || !message) {
@@ -135,7 +199,9 @@ const useChatRoom = ({
     socket.emit("message", { message, chatId });
   };
 
-  const handleUpdateMessages = (newChatMessage: ChatMessage) => {
+  const handleUpdateMessages = (
+    newChatMessage: SystemMessage | UserMessage
+  ) => {
     setMessages((messages) => [...messages, ...[newChatMessage]]);
   };
 
@@ -143,12 +209,14 @@ const useChatRoom = ({
     if (!socket || !chatId) return;
     socket.emit("user-joined", { chatId, username });
 
-    socket.on("user-joined", ({ timestamp, username }) => {
-      handleUpdateMessages({ type: "user-joined", timestamp, username });
+    socket.on("user-joined", ({ timestamp, message, connectedUsers }) => {
+      handleUpdateMessages({ type: "system", timestamp, message });
+      setUsers(connectedUsers);
     });
 
-    socket.on("user-left", ({ timestamp, username }) => {
-      handleUpdateMessages({ type: "user-left", timestamp, username });
+    socket.on("user-left", ({ timestamp, message, connectedUsers }) => {
+      handleUpdateMessages({ type: "system", timestamp, message });
+      setUsers(connectedUsers);
     });
 
     socket.on("message", ({ timestamp, username, message }) => {
@@ -165,7 +233,7 @@ const useChatRoom = ({
     }
   }, [messages]);
 
-  return { messagesBottomAnchor, messages, handleSendMessage };
+  return { messagesBottomAnchor, messages, handleSendMessage, users };
 };
 
 const ChatRoom = ({
@@ -175,10 +243,11 @@ const ChatRoom = ({
   chatId: string;
   username: string;
 }) => {
-  const { messagesBottomAnchor, messages, handleSendMessage } = useChatRoom({
-    chatId,
-    username,
-  });
+  const { messagesBottomAnchor, messages, handleSendMessage, users } =
+    useChatRoom({
+      chatId,
+      username,
+    });
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -192,31 +261,19 @@ const ChatRoom = ({
     <div className="chat-room" onClick={handleFocusInput}>
       <div className="chat-room__messages">
         {messages.map((message) => {
-          if (message.type === "user-joined") {
+          if (message.type === "system") {
             return (
-              <ChatMessage
-                isSystem
+              <ChatSystemMessage
                 timestamp={message.timestamp}
-                username="System"
-                message={`${message.username} joined the room`}
+                message={message.message}
               />
             );
           }
 
-          if (message.type === "user-left") {
+          /* Way to discriminate an UserMessage from a SystemMessage */
+          if ("username" in message) {
             return (
-              <ChatMessage
-                isSystem
-                timestamp={message.timestamp}
-                username="System"
-                message={`${message.username} left the room`}
-              />
-            );
-          }
-
-          if (message.type === "message") {
-            return (
-              <ChatMessage
+              <ChatUserMessage
                 timestamp={message.timestamp}
                 username={message.username}
                 message={message.message}
@@ -231,6 +288,7 @@ const ChatRoom = ({
         username={username}
         sendMessage={handleSendMessage}
       />
+      <UsersTooltip users={users} />
     </div>
   );
 };

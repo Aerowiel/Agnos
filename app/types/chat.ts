@@ -1,8 +1,13 @@
-interface ChatMessage {
+interface ChatMessageBase {
   type: string;
   timestamp: string;
-  username: string;
-  message?: string;
+  message: string;
 }
 
-export type { ChatMessage };
+interface SystemMessage extends ChatMessageBase {}
+
+interface UserMessage extends ChatMessageBase {
+  username: string;
+}
+
+export type { SystemMessage, UserMessage };
